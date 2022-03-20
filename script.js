@@ -13,8 +13,14 @@ async function main()
 	parsed = await getJSON(url);
 
 	var papers = search(parsed, author, title, subject, journal, keywords, doi);
-
-	document.write(papers.length);
+	try
+	{
+		document.write(papers[0].doi);
+	}
+	catch
+	{
+		document.write("No DOI # was found corresponding to your inputs")
+	}
 
 }
 
@@ -31,20 +37,99 @@ function search(parsed, author, title, subject, journal, keywords, doi)
 	{
 		try
 		{
-			if(parsed[i].authors.toLowerCase().includes(author.toLowerCase()))
-			{
-				papers.push(parsed[i].doi);
-			}
-			else
+			
+			//Check author
+			if(!(chkAut(author, parsed[i].authors)))
 			{
 				continue;
 			}
+			//Check title
+			if(!(chkTitle(title, parsed[i].title)))
+			{
+				continue;
+			}
+			//Check subject
+				if(!(chkSub(subject, parsed[i].subject)))
+				{
+
+					continue;
+				}
+			console.log("Made it");
+			papers.push(parsed[i]);
+
+
 		}
 		catch
 		{
-			console.log("No Author for Object " + i);
+			console.log("Error");
 			continue;
 		}
 	}
 	return papers;
+}
+
+function chkAut(author, parsAuthor) 
+{
+	try
+	{
+		if(!(parsAuthor.toLowerCase().includes(author.toLowerCase())))
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	catch
+	{
+		console.log("Author undefined");
+		return false;
+	}
+}
+
+function chkTitle(title, parsTitle) 
+{
+	try
+	{
+		if(!(parsTitle.toLowerCase().includes(title.toLowerCase())))
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	catch
+	{
+		console.log("Title undefined");
+		return false;
+	}
+}
+
+function chkSub(subject, parsSub) 
+{
+	try
+	{
+		for(j = 0; j < parsSub.length; j++)
+		{
+			if(!(parsSub[j].toLowerCase().includes(subject.toLowerCase())))
+			{
+				continue;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		return false;
+		
+		
+	}
+	catch
+	{
+		console.log("Subject undefined");
+		return false;
+	}
 }
