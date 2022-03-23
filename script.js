@@ -32,25 +32,38 @@ async function main()
 				a.href = "https://doi.org/" + papers[i].doi;
 		
 				document.body.appendChild(a);
-				document.write("<br>");
+				document.write("<br>")
+				
 				
 			}
-			
+		    submitFormat();
+		}
+		else
+		{
+			document.write("No DOI # was found corresponding to your inputs");
+			document.write("<br>");
+			submitFormat();
 		}
 	}
 	catch
 	{
-		document.write("No DOI # was found corresponding to your inputs")
+		document.write("No DOI # was found corresponding to your inputs");
+		submitFormat();
 	}
-	var b = document.createElement("button");
-			b.innerHTML = "To search a new paper click this button!";
-			b.onclick = function()
-			{
-				document.body.innerHTML = "";
-				inputFields();
-			};
-			document.body.appendChild(b);
+	
 
+}
+
+function submitFormat()
+{
+	var b = document.createElement("button");
+		b.innerHTML = "To search a new paper click this button!";
+		b.onclick = function()
+		{
+			document.body.innerHTML = "";
+			inputFields();
+		};
+		document.body.appendChild(b);
 }
 
 async function getJSON(url)
@@ -254,10 +267,11 @@ function createField(form,field)
 	var linebreak = document.createElement("br");
 	form.appendChild(linebreak);
 }
+
 function inputFields()
 {
 	
-	var script = document.createElement("script")
+	var script = document.createElement("script");
 	script.setAttribute("src","script.js");
 	var form = document.createElement("form");
 	form.setAttribute("name","search");
