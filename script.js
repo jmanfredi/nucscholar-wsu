@@ -18,25 +18,8 @@ async function main()
 	{
 		if(papers.length > 0)
 		{
-			document.write("There were " + papers.length + " results<br>")
-			for(i = 0; i < papers.length; i++)
-			{
-				var a = document.createElement('a');
-		
-				var link = document.createTextNode(papers[i].doi);
-		
-				a.appendChild(link);
-		
-				a.title = "The ISBN link";
-		
-				a.href = "https://doi.org/" + papers[i].doi;
-		
-				document.body.appendChild(a);
-				document.write("<br>")
-				
-				
-			}
-		    submitFormat();
+			sessionStorage.setItem("Papers", JSON.stringify(papers));
+			location.href = "./output.html";
 		}
 		else
 		{
