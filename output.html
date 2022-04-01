@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <script>
+        var papers = JSON.parse(sessionStorage.getItem("Papers"));
+        //console.log(papers[0].authors);
+        for(i = 0; i < papers.length; i++)
+        {
+            var a = document.createElement('a');
+            var link = document.createTextNode(papers[i].doi);
+            a.appendChild(link);
+            a.title = "The ISBN link";
+            a.href = "https://doi.org/" + papers[i].doi;
+
+            document.body.appendChild(a);
+            document.write("<br>");
+            
+        }
+        submitFormat();
+
+        function submitFormat()
+        {
+	        var b = document.createElement("button");
+		    b.innerHTML = "To search a new paper click this button!";
+		    b.onclick = function()
+		    {
+                history.back();
+		    };
+		    document.body.appendChild(b);
+        }
+    </script>
+
+</body>
