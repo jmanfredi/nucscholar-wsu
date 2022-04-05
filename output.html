@@ -4,30 +4,60 @@
     <script>
         var papers = JSON.parse(sessionStorage.getItem("Papers"));
         //console.log(papers[0].authors);
+        document.write("Total paper results: " + papers.length);
         for(i = 0; i < papers.length; i++)
         {
-            var a = document.createElement('a');
-            var link = document.createTextNode(papers[i].doi);
-            a.appendChild(link);
-            a.title = "The ISBN link";
-            a.href = "https://doi.org/" + papers[i].doi;
-
-            document.body.appendChild(a);
-            document.write("<br>");
-            
+            paperOutput(papers,i);
         }
         submitFormat();
 
         function submitFormat()
         {
+            document.write("<br>")
 	        var b = document.createElement("button");
 		    b.innerHTML = "To search a new paper click this button!";
 		    b.onclick = function()
 		    {
-                history.back();
+                location.href = "./test.html";
 		    };
 		    document.body.appendChild(b);
         }
+        function paperOutput(papers,i)
+        {
+            var c = JSON.stringify(papers[i].title)
+            if(c.includes("\\n"))
+            {
+                console.log(c);
+                c = c.replaceAll("\\n", "");
+                console.log("yor");
+                papers[i].title = JSON.parse(c);
+                console.log(papers[i].title);
+            }
+            var test = JSON.stringify(papers[i].keywords)
+            console.log(test)
+            if(test.includes("\\n"))
+            {
+                test = test.replaceAll("\\n","");
+                console.log("yer");
+                papers[i].keywords = JSON.parse(test);
+                console.log(papers[i].keywords);
+            }
+            document.write("<br>")
+            document.write("Title: " + papers[i].title + "<br>");
+            document.write("Authors: " + papers[i].authors + "<br>");
+            document.write("Subject: " + papers[i].subject + "<br>");
+            document.write("Journal: " + papers[i].journal + "<br>");
+            document.write("Keywords: " + papers[i].keywords + "<br>");
+            document.write("DOI Link: ")
+            var a = document.createElement('a');
+            var link = document.createTextNode(papers[i].doi);
+            a.appendChild(link);
+            a.title = "The ISBN link";
+            a.href = "https://doi.org/" + papers[i].doi;
+            document.body.appendChild(a);
+            document.write("<br>");
+        }
     </script>
+
 
 </body>

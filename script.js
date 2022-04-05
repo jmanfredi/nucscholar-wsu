@@ -23,14 +23,13 @@ async function main()
 		}
 		else
 		{
-			document.write("No DOI # was found corresponding to your inputs");
-			document.write("<br>");
+			document.write("No DOI # was found corresponding to your inputs" + "<br>");
 			submitFormat();
 		}
 	}
 	catch
 	{
-		document.write("No DOI # was found corresponding to your inputs");
+		document.write("No DOI # was found corresponding to your inputs" + "<br>");
 		submitFormat();
 	}
 	
@@ -39,14 +38,13 @@ async function main()
 
 function submitFormat()
 {
-	var b = document.createElement("button");
-		b.innerHTML = "To search a new paper click this button!";
-		b.onclick = function()
-		{
-			document.body.innerHTML = "";
-			inputFields();
-		};
-		document.body.appendChild(b);
+	        var b = document.createElement("button");
+		    b.innerHTML = "To search a new paper click this button!";
+		    b.onclick = function()
+		    {
+                location.href = "./test.html";
+		    };
+		    document.body.appendChild(b);
 }
 
 async function getJSON(url)
@@ -69,7 +67,7 @@ function search(parsed, author, title, subject, journal, keywords, doi)
 				continue;
 			}
 			//Check title
-			if(!(chkTitle(title, parsed[i].title)))
+			if(!(chkTitle(title, removeSlashnFromJson(parsed[i].title))))
 			{
 				continue;
 			}
@@ -84,7 +82,7 @@ function search(parsed, author, title, subject, journal, keywords, doi)
 				continue;
 			}
 			//check keywords
-			if(!(chkKeywords(keywords, parsed[i].keywords)))
+			if(!(chkKeywords(keywords, removeSlashnFromJson(parsed[i].keywords))))
 			{
 				continue;
 			}
@@ -271,4 +269,18 @@ function inputFields()
 	form.appendChild(submitButton);
 	document.body.appendChild(script);;
 	document.body.appendChild(form);
+}
+function removeSlashnFromJson(str)
+{
+	console.log(JSON.stringify(str));
+	str = JSON.stringify(str);
+	if(str.includes("\\n"))
+	{
+	   str = str.replace("\\n", "");
+	   console.log("yer");
+	   console.log(str);
+	   str = JSON.parse(str);
+	   console.log(str);
+	}
+	return str;
 }
