@@ -13,15 +13,38 @@ async function main()
 	parsed = await getJSON(url);
 
 	var papers = search(parsed, author, title, subject, journal, keywords, doi);
+	
 	try
 	{
-		document.write(papers[0].doi);
+		if(papers.length > 0)
+		{
+			sessionStorage.setItem("Papers", JSON.stringify(papers));
+			location.href = "./output.html";
+		}
+		else
+		{
+			document.write("No DOI # was found corresponding to your inputs" + "<br>");
+			submitFormat();
+		}
 	}
 	catch
 	{
-		document.write("No DOI # was found corresponding to your inputs")
+		document.write("No DOI # was found corresponding to your inputs" + "<br>");
+		submitFormat();
 	}
+	
 
+}
+
+function submitFormat()
+{
+	        var b = document.createElement("button");
+		    b.innerHTML = "To search a new paper click this button!";
+		    b.onclick = function()
+		    {
+                location.href = "./test.html";
+		    };
+		    document.body.appendChild(b);
 }
 
 async function getJSON(url)
@@ -44,19 +67,32 @@ function search(parsed, author, title, subject, journal, keywords, doi)
 				continue;
 			}
 			//Check title
-			if(!(chkTitle(title, parsed[i].title)))
+			if(!(chkTitle(title, removeSlashnFromJson(parsed[i].title))))
 			{
 				continue;
 			}
 			//Check subject
-				if(!(chkSub(subject, parsed[i].subject)))
-				{
-
-					continue;
-				}
+			if(!(chkSub(subject, parsed[i].subject)))
+			{
+				continue;
+			}
+			//Check journal
+			if(!(chkJournal(journal, parsed[i].journal)))
+			{
+				continue;
+			}
+			//check keywords
+			if(!(chkKeywords(keywords, removeSlashnFromJson(parsed[i].keywords))))
+			{
+				continue;
+			}
+			//check DOI
+			if(!(chkDoi(doi, parsed[i].doi)))
+			{
+				continue;
+			}
 			console.log("Made it");
 			papers.push(parsed[i]);
-
 
 		}
 		catch
@@ -132,4 +168,119 @@ function chkSub(subject, parsSub)
 		console.log("Subject undefined");
 		return false;
 	}
+}
+
+function chkJournal(journal, parsJournal)
+{
+	try
+	{
+		if(!(parsJournal.toLowerCase().includes(journal.toLowerCase())))
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	catch
+	{
+		console.log("journal undefined");
+		return false;
+	}
+}
+function chkKeywords(keywords, parsKeywords)
+{
+	try
+	{
+		for(j = 0; j < parsKeywords.length; j++)
+		{
+			if(!(parsKeywords[j].toLowerCase().includes(keywords.toLowerCase())))
+			{
+				continue;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		return false;
+		
+		
+	}
+	catch
+	{
+		console.log("keywords undefined");
+		return false;
+	}
+}
+function chkDoi(doi, parsDoi)
+{
+	try
+	{
+		if(!(parsDoi.toLowerCase().includes(doi.toLowerCase())))
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	catch
+	{
+		console.log("DOI undefined");
+		return false;
+	}
+}
+function createField(form,field)
+{
+	var labelOne = document.createElement("Label");
+	labelOne.setAttribute("for",field.toLowerCase());
+	labelOne.innerHTML = field + ": ";
+	form.appendChild(labelOne);
+
+	var inputOne = document.createElement("input");
+	inputOne.setAttribute("type","text");
+	inputOne.setAttribute("id",field.toLowerCase());
+	inputOne.setAttribute("name",field.toLowerCase());
+	form.appendChild(inputOne);
+	var linebreak = document.createElement("br");
+	form.appendChild(linebreak);
+}
+
+function inputFields()
+{
+	
+	var script = document.createElement("script");
+	script.setAttribute("src","script.js");
+	var form = document.createElement("form");
+	form.setAttribute("name","search");
+	form.setAttribute("action","javascript:main()");
+	createField(form,"Author");
+	createField(form,"Title");
+	createField(form,"Subject");
+	createField(form,"Journal");
+	createField(form,"Keywords");
+	createField(form,"DOI");
+    var submitButton = document.createElement("input");
+	submitButton.setAttribute("type","submit");
+	submitButton.setAttribute("value","Submit");
+	form.appendChild(submitButton);
+	document.body.appendChild(script);;
+	document.body.appendChild(form);
+}
+function removeSlashnFromJson(str)
+{
+	console.log(JSON.stringify(str));
+	str = JSON.stringify(str);
+	if(str.includes("\\n"))
+	{
+	   str = str.replace("\\n", "");
+	   console.log("yer");
+	   console.log(str);
+	   str = JSON.parse(str);
+	   console.log(str);
+	}
+	return str;
 }
