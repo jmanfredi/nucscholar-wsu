@@ -1,8 +1,54 @@
+<!--
+.row, .column, .left .right were added along with the 3 divs with row and column classed. 
+<img> was added to house the nucScholar logo
+-->
+
 <!DOCTYPE html>
 <html>
 <body style="background-color: white; color: black">
 
 	<script src="script.js"></script>
+	<div class="row">
+		<div class="column left">
+			<h1>Wright Team</h1>
+
+			<form name="search" action="javascript:main()">
+				
+			<label for="author">Author:</label>
+			<br>
+			<input type="text" id="author" name="author"><br><br>
+
+			<label for="title">Title:</label>
+			<br>
+			<input type="text" id="title" name="title"><br><br>
+
+			<label for="subject">Subject:</label>
+			<br>
+			<input type="text" id="subject" name="subject"><br><br>
+
+			<label for="journal">Journal:</label>
+			<br>
+			<input type="text" id="journal" name="journal"><br><br>
+
+			<label for="keywords">Keywords:</label>
+			<br>
+			<input type="text" id="keywords" name="keywords"><br><br>
+
+			<label for="doi">DOI:</label>
+			<br>
+			<input type="text" id="doi" name="doi"><br><br>
+
+			<input class="button" type="submit" value="Submit">
+			</form>	
+
+			<p>Click the "Submit" button and the form-data will be sent to a page on the 
+			server called "script.js".</p>
+		</div> 
+		
+		<div class="column right">
+			<img src="C:\Users\napop\OneDrive\Pictures\Saved Pictures\nucScholar.png" style="width: 500px; height: 500px;">
+		</div>
+		<!--
 		<h1>Wright Team</h1>
 
 		<form name="search" action="javascript:main()">
@@ -35,8 +81,8 @@
 		</form>	
 
 		<p>Click the "Submit" button and the form-data will be sent to a page on the 
-		server called "script.js".</p>
-
+		server called "script.js".</p> -->
+	</div>
 </body>
 
 <style>
@@ -78,5 +124,26 @@
 
 	.textalign {
 		text-align: center;
+	}
+
+	.row {
+		height:100%;
+		position: relative;
+	}
+
+	.col {
+		width:48%;
+	}
+
+	.left {
+		float: left;
+		margin-top: -20px;
+		padding-right: -30px;
+	}
+	.right {
+		float: right;
+		margin-top: 50px;
+		border-style: solid;
+		border-left: black;
 	}
 </style>
