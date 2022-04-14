@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <script>
+        var papers = JSON.parse(sessionStorage.getItem("Papers"));
+        //console.log(papers[0].authors);
+        document.write('<p style="font-weight: bold; display: inline;"> Total paper results: </p>' + papers.length + '<br>');
+        document.write('<hr>')
+        for(i = 0; i < papers.length; i++)
+        {
+            paperOutput(papers,i);
+        }
+        submitFormat();
+
+        function submitFormat()
+        {
+            document.write("<br>")
+	        var b = document.createElement("button");
+		    b.innerHTML = "To search a new paper click this button!";
+		    b.onclick = function()
+		    {
+                location.href = "./test.html";
+		    };
+		    document.body.appendChild(b);
+        }
+        function paperOutput(papers,i)
+        {
+            var c = JSON.stringify(papers[i].title)
+            if(c.includes("\\n"))
+            {
+                console.log(c);
+                c = c.replaceAll("\\n", "");
+                console.log("yor");
+                papers[i].title = JSON.parse(c);
+                console.log(papers[i].title);
+            }
+            var test = JSON.stringify(papers[i].keywords)
+            console.log(test)
+            if(test.includes("\\n"))
+            {
+                test = test.replaceAll("\\n","");
+                console.log("yer");
+                papers[i].keywords = JSON.parse(test);
+                console.log(papers[i].keywords);
+            }
+            document.write("<br>")
+            document.write('<h4 style="font-weight: bold; display: inline;">Title: </h4>' + papers[i].title + "<br>");
+            document.write('<h4 style="font-weight: bold; display: inline">Author: </h4>' + papers[i].authors + "<br>");
+            document.write('<h4 style="font-weight: bold; display: inline">Subject: </h4>' + papers[i].subject + "<br>");
+            document.write('<h4 style="font-weight: bold; display: inline">Journal: </h4>' + papers[i].journal + "<br>");
+            document.write('<h4 style="font-weight: bold; display: inline">Keywords: </h4>' + papers[i].keywords + "<br>");
+            document.write('<h4 style="font-weight: bold; display: inline">DOI Link: </h4>')
+            var a = document.createElement('a');
+            var link = document.createTextNode(papers[i].doi);
+            a.appendChild(link);
+            a.title = "The ISBN link";
+            a.href = "https://doi.org/" + papers[i].doi;
+            document.body.appendChild(a);
+            document.write("<br>");
+            //document.write("<br>")
+            document.write("<hr>");
+        }
+    </script>
+
+
+</body>

@@ -18,39 +18,33 @@ async function main()
 	{
 		if(papers.length > 0)
 		{
-			document.write("There were " + papers.length + " results<br>")
-			for(i = 0; i < papers.length; i++)
-			{
-				var a = document.createElement('a');
-		
-				var link = document.createTextNode(papers[i].doi);
-		
-				a.appendChild(link);
-		
-				a.title = "The ISBN link";
-		
-				a.href = "https://doi.org/" + papers[i].doi;
-		
-				document.body.appendChild(a);
-				document.write("<br>");
-				
-			}
-			
+			sessionStorage.setItem("Papers", JSON.stringify(papers));
+			location.href = "./output.html";
+		}
+		else
+		{
+			document.write("No DOI # was found corresponding to your inputs" + "<br>");
+			submitFormat();
 		}
 	}
 	catch
 	{
-		document.write("No DOI # was found corresponding to your inputs")
+		document.write("No DOI # was found corresponding to your inputs" + "<br>");
+		submitFormat();
 	}
-	var b = document.createElement("button");
-			b.innerHTML = "To search a new paper click this button!";
-			b.onclick = function()
-			{
-				document.body.innerHTML = "";
-				inputFields();
-			};
-			document.body.appendChild(b);
+	
 
+}
+
+function submitFormat()
+{
+	        var b = document.createElement("button");
+		    b.innerHTML = "To search a new paper click this button!";
+		    b.onclick = function()
+		    {
+                location.href = "./test.html";
+		    };
+		    document.body.appendChild(b);
 }
 
 async function getJSON(url)
@@ -73,7 +67,7 @@ function search(parsed, author, title, subject, journal, keywords, doi)
 				continue;
 			}
 			//Check title
-			if(!(chkTitle(title, parsed[i].title)))
+			if(!(chkTitle(title, removeSlashnFromJson(parsed[i].title))))
 			{
 				continue;
 			}
@@ -88,7 +82,7 @@ function search(parsed, author, title, subject, journal, keywords, doi)
 				continue;
 			}
 			//check keywords
-			if(!(chkKeywords(keywords, parsed[i].keywords)))
+			if(!(chkKeywords(keywords, removeSlashnFromJson(parsed[i].keywords))))
 			{
 				continue;
 			}
@@ -254,10 +248,11 @@ function createField(form,field)
 	var linebreak = document.createElement("br");
 	form.appendChild(linebreak);
 }
+
 function inputFields()
 {
 	
-	var script = document.createElement("script")
+	var script = document.createElement("script");
 	script.setAttribute("src","script.js");
 	var form = document.createElement("form");
 	form.setAttribute("name","search");
@@ -274,4 +269,18 @@ function inputFields()
 	form.appendChild(submitButton);
 	document.body.appendChild(script);;
 	document.body.appendChild(form);
+}
+function removeSlashnFromJson(str)
+{
+	console.log(JSON.stringify(str));
+	str = JSON.stringify(str);
+	if(str.includes("\\n"))
+	{
+	   str = str.replace("\\n", "");
+	   console.log("yer");
+	   console.log(str);
+	   str = JSON.parse(str);
+	   console.log(str);
+	}
+	return str;
 }
