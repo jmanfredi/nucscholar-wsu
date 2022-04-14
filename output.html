@@ -4,7 +4,8 @@
     <script>
         var papers = JSON.parse(sessionStorage.getItem("Papers"));
         //console.log(papers[0].authors);
-        document.write("Total paper results: " + papers.length);
+        document.write('<p style="font-weight: bold; display: inline;"> Total paper results: </p>' + papers.length + '<br>');
+        document.write('<hr>')
         for(i = 0; i < papers.length; i++)
         {
             paperOutput(papers,i);
@@ -43,12 +44,12 @@
                 console.log(papers[i].keywords);
             }
             document.write("<br>")
-            document.write("Title: " + papers[i].title + "<br>");
-            document.write("Authors: " + papers[i].authors + "<br>");
-            document.write("Subject: " + papers[i].subject + "<br>");
-            document.write("Journal: " + papers[i].journal + "<br>");
-            document.write("Keywords: " + papers[i].keywords + "<br>");
-            document.write("DOI Link: ")
+            document.write('<h4 style="font-weight: bold; display: inline;">Title: </h4>' + papers[i].title + "<br>");
+            document.write('<h4 style="font-weight: bold; display: inline">Author: </h4>' + papers[i].authors + "<br>");
+            document.write('<h4 style="font-weight: bold; display: inline">Subject: </h4>' + papers[i].subject + "<br>");
+            document.write('<h4 style="font-weight: bold; display: inline">Journal: </h4>' + papers[i].journal + "<br>");
+            document.write('<h4 style="font-weight: bold; display: inline">Keywords: </h4>' + papers[i].keywords + "<br>");
+            document.write('<h4 style="font-weight: bold; display: inline">DOI Link: </h4>')
             var a = document.createElement('a');
             var link = document.createTextNode(papers[i].doi);
             a.appendChild(link);
@@ -56,6 +57,8 @@
             a.href = "https://doi.org/" + papers[i].doi;
             document.body.appendChild(a);
             document.write("<br>");
+            //document.write("<br>")
+            document.write("<hr>");
         }
     </script>
 
