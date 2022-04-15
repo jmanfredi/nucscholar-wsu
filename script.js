@@ -266,43 +266,6 @@ function chkDoi(doi, parsDoi)
 		return false;
 	}
 }
-function createField(form,field)
-{
-	var labelOne = document.createElement("Label");
-	labelOne.setAttribute("for",field.toLowerCase());
-	labelOne.innerHTML = field + ": ";
-	form.appendChild(labelOne);
-
-	var inputOne = document.createElement("input");
-	inputOne.setAttribute("type","text");
-	inputOne.setAttribute("id",field.toLowerCase());
-	inputOne.setAttribute("name",field.toLowerCase());
-	form.appendChild(inputOne);
-	var linebreak = document.createElement("br");
-	form.appendChild(linebreak);
-}
-
-function inputFields()
-{
-	
-	var script = document.createElement("script");
-	script.setAttribute("src","script.js");
-	var form = document.createElement("form");
-	form.setAttribute("name","search");
-	form.setAttribute("action","javascript:main()");
-	createField(form,"Author");
-	createField(form,"Title");
-	createField(form,"Subject");
-	createField(form,"Journal");
-	createField(form,"Keywords");
-	createField(form,"DOI");
-    var submitButton = document.createElement("input");
-	submitButton.setAttribute("type","submit");
-	submitButton.setAttribute("value","Submit");
-	form.appendChild(submitButton);
-	document.body.appendChild(script);;
-	document.body.appendChild(form);
-}
 function removeSlashnFromJson(str)
 {
 	console.log(JSON.stringify(str));

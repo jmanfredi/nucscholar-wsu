@@ -3,7 +3,6 @@
 <body>
     <script>
         var papers = JSON.parse(sessionStorage.getItem("Papers"));
-        //console.log(papers[0].authors);
         
         printPassedArgs(sessionStorage);
 
@@ -29,7 +28,7 @@
         {
             document.write("<br>")
 	        var b = document.createElement("button");
-		    b.innerHTML = "To search a new paper click this button!";
+		    b.innerHTML = "Click here to search a new paper";
 		    b.onclick = function()
 		    {
                 location.href = "./test.html";
