@@ -6,13 +6,21 @@ async function main()
 	var journal = document.getElementById("journal").value;
 	var keywords = document.getElementById("keywords").value;
 	var doi = document.getElementById("doi").value;
+	var year = document.getElementById("year").value;
+	sessionStorage.setItem("author", JSON.stringify(author));
+	sessionStorage.setItem("title",JSON.stringify(title));
+	sessionStorage.setItem("subject",JSON.stringify(subject));
+	sessionStorage.setItem("journal",JSON.stringify(journal));
+	sessionStorage.setItem("keywords",JSON.stringify(keywords));
+	sessionStorage.setItem("doi",JSON.stringify(doi));
+	sessionStorage.setItem("year",JSON.stringify(year));
 
 	var parsed;
 	var url = 'https://raw.githubusercontent.com/popp22/popp22.github.io/main/test.json';
 
 	parsed = await getJSON(url);
 
-	var papers = search(parsed, author, title, subject, journal, keywords, doi);
+	var papers = search(parsed, author, title, subject, year, journal, keywords, doi);
 	
 	try
 	{
@@ -23,14 +31,14 @@ async function main()
 		}
 		else
 		{
-			document.write("No DOI # was found corresponding to your inputs" + "<br>");
-			submitFormat();
+			sessionStorage.setItem("Papers", JSON.stringify(papers));
+			location.href = "./output.html";
 		}
 	}
 	catch
 	{
-		document.write("No DOI # was found corresponding to your inputs" + "<br>");
-		submitFormat();
+		sessionStorage.setItem("Papers", JSON.stringify(papers));
+		location.href = "./output.html";
 	}
 	
 
@@ -53,7 +61,7 @@ async function getJSON(url)
 	return response.json();  
 }
 
-function search(parsed, author, title, subject, journal, keywords, doi)
+function search(parsed, author, title, subject, year, journal, keywords, doi)
 { 
 	var papers = new Array();
 	for(i = 0; i < Object.keys(parsed).length; i++)
@@ -73,6 +81,11 @@ function search(parsed, author, title, subject, journal, keywords, doi)
 			}
 			//Check subject
 			if(!(chkSub(subject, parsed[i].subject)))
+			{
+				continue;
+			}
+			//Check year
+			if(!(chkYear(year, parsed[i].journal)))
 			{
 				continue;
 			}
@@ -166,6 +179,26 @@ function chkSub(subject, parsSub)
 	catch
 	{
 		console.log("Subject undefined");
+		return false;
+	}
+}
+
+function chkYear(year, parsJournal)
+{
+	try
+	{
+		if(!(parsJournal.toLowerCase().includes(year.toLowerCase())))
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	catch
+	{
+		console.log("Year undefined");
 		return false;
 	}
 }

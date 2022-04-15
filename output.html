@@ -4,12 +4,25 @@
     <script>
         var papers = JSON.parse(sessionStorage.getItem("Papers"));
         //console.log(papers[0].authors);
-        document.write('<p style="font-weight: bold; display: inline;"> Total paper results: </p>' + papers.length + '<br>');
-        document.write('<hr>')
-        for(i = 0; i < papers.length; i++)
+        
+        printPassedArgs(sessionStorage);
+
+        document.write('<p style="font-weight: bold; display: inline;"> Total paper results for fields searched: </p>' + papers.length + '<br>');
+        document.write('<hr>');
+
+        if(papers.length > 0)
         {
+            for(i = 0; i < papers.length; i++)
+            {
             paperOutput(papers,i);
+            }
+
+        }else{
+
+            document.write("No DOI # was found corresponding to your inputs" + "<br>");
+
         }
+       
         submitFormat();
 
         function submitFormat()
@@ -28,20 +41,14 @@
             var c = JSON.stringify(papers[i].title)
             if(c.includes("\\n"))
             {
-                console.log(c);
                 c = c.replaceAll("\\n", "");
-                console.log("yor");
                 papers[i].title = JSON.parse(c);
-                console.log(papers[i].title);
             }
             var test = JSON.stringify(papers[i].keywords)
-            console.log(test)
             if(test.includes("\\n"))
             {
                 test = test.replaceAll("\\n","");
-                console.log("yer");
                 papers[i].keywords = JSON.parse(test);
-                console.log(papers[i].keywords);
             }
             document.write("<br>")
             document.write('<h4 style="font-weight: bold; display: inline;">Title: </h4>' + papers[i].title + "<br>");
@@ -59,6 +66,46 @@
             document.write("<br>");
             //document.write("<br>")
             document.write("<hr>");
+        }
+        function printPassedArgs(sessionStorage)
+        {
+            var author = JSON.parse(sessionStorage.getItem("author"));
+	        var title = JSON.parse(sessionStorage.getItem("title"));
+	        var subject = JSON.parse(sessionStorage.getItem("subject"));
+	        var journal = JSON.parse(sessionStorage.getItem("journal"));
+	        var keywords = JSON.parse(sessionStorage.getItem("keywords"));
+	        var doi = JSON.parse(sessionStorage.getItem("doi"));
+            var year = JSON.parse(sessionStorage.getItem("year"));
+            document.write('<p style="font-weight: bold; display: inline;"> Fields Searched: </p>' + '<br>');
+            if(author != "")
+            {
+                document.write('<p style="font-weight: bold; display: inline;"> Author: </p>' + author + '<br>');
+            }
+            if(title != "")
+            {
+                document.write('<p style="font-weight: bold; display: inline;"> Title: </p>' + title + '<br>');
+            }
+            if(subject != "")
+            {
+                document.write('<p style="font-weight: bold; display: inline;"> Subject: </p>' + subject + '<br>');
+            }
+            if(journal != "")
+            {
+                document.write('<p style="font-weight: bold; display: inline;"> Journal: </p>' + journal + '<br>');
+            }
+            if(keywords != "")
+            {
+                document.write('<p style="font-weight: bold; display: inline;"> Keywords: </p>' + keywords + '<br>');
+            }
+            if(doi != "")
+            {
+                document.write('<p style="font-weight: bold; display: inline;"> DOI: </p>' + doi + '<br>');
+            }
+            if(year != "")
+            {
+                document.write('<p style="font-weight: bold; display: inline;"> Year: </p>' + year + '<br>');
+            }
+            
         }
     </script>
 
