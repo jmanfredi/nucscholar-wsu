@@ -17,7 +17,7 @@ async function main()
 
 	var parsed;
 	var url = 'https://raw.githubusercontent.com/popp22/popp22.github.io/main/test.json';
-
+	
 	parsed = await getJSON(url);
 
 	var papers = search(parsed, author, title, subject, year, journal, keywords, doi);
@@ -59,6 +59,25 @@ async function getJSON(url)
 {
 	const response = await fetch(url);
 	return response.json();  
+}
+function printOutput()
+{
+	
+	var responseObj = JSON.parse(this.responseText);
+	for(i = 0; i < Object.keys(parsed).length; i++)
+	{
+		console.log(responseObj[i].name);
+	}
+	sessionStorage.setItem("folder", JSON.stringify(responseObj[0]));
+	
+}
+async function getJSONFolder()
+{
+	var request = new XMLHttpRequest();
+	request.onload = printOutput();
+	request.open('get' , 'https://api.github.com/repos/popp22/popp22.github.io/contents/jsonTestFolder', true);
+	request.send();
+	
 }
 
 function search(parsed, author, title, subject, year, journal, keywords, doi)
