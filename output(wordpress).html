@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <script>
+        var papers = JSON.parse(sessionStorage.getItem("Papers"));
+        var folder = getJSONFolder()
+        console.log(folder);
+        printPassedArgs(sessionStorage);
+
+        document.write('<p style="font-weight: bold; display: inline;"> Total paper results: </p>' + papers.length + '<br>');
+        document.write('<hr>');
+
+        if(papers.length > 0)
+        {
+            for(i = 0; i < papers.length; i++)
+            {
+            paperOutput(papers,i);
+            }
+
+        }else{
+
+            document.write("No DOI # was found corresponding to your inputs" + "<br>");
+
+        }
+       
+        submitFormat();
+        async function getJSONFolder()
+        {
+            const response = await fetch('https://api.github.com/repos/popp22/popp22.github.io/contents/jsonTestFolder');
+	        return response.json();  
+        }       
+        function submitFormat()
+        {
+            document.write("<br>")
+	        var b = document.createElement("button");
+		    b.innerHTML = "Click here to search a new paper";
+		    b.onclick = function()
+		    {
+                location.href = "./test(wordpress).html";
+		    };
+		    document.body.appendChild(b);
+        }
+        function paperOutput(papers,i)
+        {
+            var c = JSON.stringify(papers[i].title)
+            if(c.includes("\\n"))
+            {
+                c = c.replaceAll("\\n", "");
+                papers[i].title = JSON.parse(c);
+            }
+            var test = JSON.stringify(papers[i].keywords)
+            if(test.includes("\\n"))
+            {
+                test = test.replaceAll("\\n","");
+                papers[i].keywords = JSON.parse(test);
+            }
+            document.write("<br>")
+            document.write('<h4 style="font-weight: bold; display: inline;">Title: </h4>' + papers[i].title + "<br>");
+            document.write('<h4 style="font-weight: bold; display: inline">Author: </h4>' + papers[i].authors + "<br>");
+            document.write('<h4 style="font-weight: bold; display: inline">Subject: </h4>' + papers[i].subject + "<br>");
+            document.write('<h4 style="font-weight: bold; display: inline">Journal: </h4>' + papers[i].journal + "<br>");
+            document.write('<h4 style="font-weight: bold; display: inline">Keywords: </h4>' + papers[i].keywords + "<br>");
+            document.write('<h4 style="font-weight: bold; display: inline">DOI Link: </h4>')
+            var a = document.createElement('a');
+            var link = document.createTextNode(papers[i].doi);
+            a.appendChild(link);
+            a.title = "The ISBN link";
+            a.href = "https://doi.org/" + papers[i].doi;
+            document.body.appendChild(a);
+            document.write("<br>");
+            //document.write("<br>")
+            document.write("<hr>");
+        }
+        function printPassedArgs(sessionStorage)
+        {
+            var author = JSON.parse(sessionStorage.getItem("author"));
+	        var title = JSON.parse(sessionStorage.getItem("title"));
+	        var subject = JSON.parse(sessionStorage.getItem("subject"));
+	        var journal = JSON.parse(sessionStorage.getItem("journal"));
+	        var keywords = JSON.parse(sessionStorage.getItem("keywords"));
+	        var doi = JSON.parse(sessionStorage.getItem("doi"));
+            var year = JSON.parse(sessionStorage.getItem("year"));
+            document.write('<p style="font-weight: bold; display: inline;"> Fields Searched: </p>' + '<br>');
+            if(author != "")
+            {
+                document.write('<p style="font-weight: bold; display: inline;"> Author: </p>' + author + '<br>');
+            }
+            if(title != "")
+            {
+                document.write('<p style="font-weight: bold; display: inline;"> Title: </p>' + title + '<br>');
+            }
+            if(subject != "")
+            {
+                document.write('<p style="font-weight: bold; display: inline;"> Subject: </p>' + subject + '<br>');
+            }
+            if(journal != "")
+            {
+                document.write('<p style="font-weight: bold; display: inline;"> Journal: </p>' + journal + '<br>');
+            }
+            if(keywords != "")
+            {
+                document.write('<p style="font-weight: bold; display: inline;"> Keywords: </p>' + keywords + '<br>');
+            }
+            if(doi != "")
+            {
+                document.write('<p style="font-weight: bold; display: inline;"> DOI: </p>' + doi + '<br>');
+            }
+            if(year != "")
+            {
+                document.write('<p style="font-weight: bold; display: inline;"> Year: </p>' + year + '<br>');
+            }
+            
+        }
+    </script>
+
+
+</body>
