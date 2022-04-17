@@ -1,3 +1,8 @@
+/**
+ * called when submit buttons is presssed in the HTMl file.
+ * Gets the JSON file and user input ready to pass to the search function.
+ * Also, handles output once search is complete
+ */
 async function main()
 {
 	var author = document.getElementById("author").value;
@@ -44,6 +49,9 @@ async function main()
 
 }
 
+/**
+ * 
+ */
 function submitFormat()
 {
 	        var b = document.createElement("button");
@@ -55,11 +63,19 @@ function submitFormat()
 		    document.body.appendChild(b);
 }
 
+/**
+ * 
+ * @param {JSON url} url 
+ * @returns {JSON object}
+ */
 async function getJSON(url)
 {
 	const response = await fetch(url);
 	return response.json();  
 }
+/**
+ *
+ */
 function printOutput()
 {
 	
@@ -71,6 +87,9 @@ function printOutput()
 	sessionStorage.setItem("folder", JSON.stringify(responseObj[0]));
 	
 }
+/**
+ * 
+ */
 async function getJSONFolder()
 {
 	var request = new XMLHttpRequest();
@@ -80,6 +99,20 @@ async function getJSONFolder()
 	
 }
 
+/**
+ * This function handles all of the work in the script
+ * simple if statements that compare user input to the params of a paper. If the paper does not include a user input, the code moves onto the next paper.
+ * If a paper gets through all of the ifs then it has passed all input checks and is added to the return param
+ * @param {The Parsed JSON object} parsed 
+ * @param {User given author} author 
+ * @param {User given title} title 
+ * @param {User given subject} subject 
+ * @param {User given year} year 
+ * @param {User given journal} journal 
+ * @param {User given keyword} keywords 
+ * @param {User given DOI#} doi 
+ * @returns {array of papers corresponding to user inputs}
+ */
 function search(parsed, author, title, subject, year, journal, keywords, doi)
 { 
 	var papers = new Array();
@@ -136,6 +169,12 @@ function search(parsed, author, title, subject, year, journal, keywords, doi)
 	return papers;
 }
 
+/**
+ * Compares user input to fields of the paper
+ * @param {user author} author 
+ * @param {paper author} parsAuthor 
+ * @returns {True if parsAuthor includes author. False if not}
+ */
 function chkAut(author, parsAuthor) 
 {
 	try
@@ -156,6 +195,12 @@ function chkAut(author, parsAuthor)
 	}
 }
 
+/**
+ * Compares user input to fields of the paper
+ * @param {user title} title 
+ * @param {paper title} parsTitle 
+ * @returns {True if parsTitle includes title. False if not}
+ */
 function chkTitle(title, parsTitle) 
 {
 	try
@@ -176,6 +221,12 @@ function chkTitle(title, parsTitle)
 	}
 }
 
+/**
+ * Goes through subject array and checks each individual entry against user input
+ * @param {user subject} subject 
+ * @param {paper subject} parsSub 
+ * @returns {True if parsSub includes subject. False if not}
+ */
 function chkSub(subject, parsSub) 
 {
 	try
@@ -202,6 +253,12 @@ function chkSub(subject, parsSub)
 	}
 }
 
+/**
+ * checks the journal field to see if it was published in a specific year
+ * @param {user year} year 
+ * @param {paper Journal} parsJournal 
+ * @returns {True if parsJournal includes year. False if not}
+ */
 function chkYear(year, parsJournal)
 {
 	try
@@ -222,6 +279,12 @@ function chkYear(year, parsJournal)
 	}
 }
 
+/**
+ * 
+ * @param {user journal} journal 
+ * @param {paper jounal} parsJournal 
+ * @returns {True if parsJournal includes journal. False if not}
+ */
 function chkJournal(journal, parsJournal)
 {
 	try
@@ -241,6 +304,13 @@ function chkJournal(journal, parsJournal)
 		return false;
 	}
 }
+
+/**
+ * 
+ * @param {user keywords} keywords 
+ * @param {paper keywords} parsKeywords 
+ * @returns {True if parsKeywords includes keywords. False if not}
+ */
 function chkKeywords(keywords, parsKeywords)
 {
 	try
@@ -266,6 +336,13 @@ function chkKeywords(keywords, parsKeywords)
 		return false;
 	}
 }
+
+/**
+ * 
+ * @param {user doi} doi 
+ * @param {paper doi} parsDoi 
+ * @returns {True if parsDoi includes doi. False if not}
+ */
 function chkDoi(doi, parsDoi)
 {
 	try
@@ -285,6 +362,12 @@ function chkDoi(doi, parsDoi)
 		return false;
 	}
 }
+
+/**
+ * This was created to handle the JSON entries that have a \n directly in the string
+ * @param str 
+ * @returns {A string with all \n removed}
+ */
 function removeSlashnFromJson(str)
 {
 	console.log(JSON.stringify(str));
