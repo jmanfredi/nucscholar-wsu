@@ -4,10 +4,11 @@
     <script>
         var papers = JSON.parse(sessionStorage.getItem("Papers"));
         printPassedArgs(sessionStorage);
-
+        //prints how many papers were found corresponding to user inputs.
         document.write('<p style="font-weight: bold; display: inline;"> Total paper results: </p>' + papers.length + '<br>');
         document.write('<hr>');
 
+        //if papers were found that meet the inputted search fields from the user print them otherwise display that no papers were found.
         if(papers.length > 0)
         {
             for(i = 0; i < papers.length; i++)
@@ -22,7 +23,8 @@
         }
        
         searchNewPaper();
-     
+
+        //searchNewPaper creates a button to redirect back to the original search page. 
         function searchNewPaper()
         {
             document.write("<br>")
@@ -34,7 +36,11 @@
 		    };
 		    document.body.appendChild(b);
         }
-        
+        //paperOutput takes the array of papers that were added based on the results of the search query and an index for which paper to print out and format.
+        //Function is used to format the paper output and was put into a function to make it modular and modifiable. 
+        //In the JSON file there are \n in the file which are breaks in traditional programming but in javascript just prints out blanks in the outputted fields
+        //so this function also removes the \n and deletes the space to output the correct fields. The rest of the function adds html formatting to the print outs of each field and adds the
+        // doi link.
         function paperOutput(papers,i)
         {
             var c = JSON.stringify(papers[i].title)
@@ -65,6 +71,9 @@
             document.write("<br>");
             document.write("<hr>");
         }
+        //This function prints out what arguments the user inputted in the search page. If the field is not blank (meaning the user put anything other than a space) it
+        //prints out the information provided for each field with some html formatting. This is done through the sessionStorage object which can be used to save information between
+        //pages.
         function printPassedArgs(sessionStorage)
         {
             var author = JSON.parse(sessionStorage.getItem("author"));
