@@ -3,8 +3,6 @@
 <body>
     <script>
         var papers = JSON.parse(sessionStorage.getItem("Papers"));
-        var folder = getJSONFolder()
-        console.log(folder);
         printPassedArgs(sessionStorage);
 
         document.write('<p style="font-weight: bold; display: inline;"> Total paper results: </p>' + papers.length + '<br>');
@@ -23,13 +21,9 @@
 
         }
        
-        submitFormat();
-        async function getJSONFolder()
-        {
-            const response = await fetch('https://api.github.com/repos/popp22/popp22.github.io/contents/jsonTestFolder');
-	        return response.json();  
-        }       
-        function submitFormat()
+        searchNewPaper();
+     
+        function searchNewPaper()
         {
             document.write("<br>")
 	        var b = document.createElement("button");
@@ -40,6 +34,7 @@
 		    };
 		    document.body.appendChild(b);
         }
+        
         function paperOutput(papers,i)
         {
             var c = JSON.stringify(papers[i].title)
@@ -68,7 +63,6 @@
             a.href = "https://doi.org/" + papers[i].doi;
             document.body.appendChild(a);
             document.write("<br>");
-            //document.write("<br>")
             document.write("<hr>");
         }
         function printPassedArgs(sessionStorage)
