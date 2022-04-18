@@ -146,13 +146,13 @@ function chkAut(author, parsAuthor)
 {
 	try
 	{
-		if(!(parsAuthor.toLowerCase().includes(author.toLowerCase())))
+		if(parsAuthor.toLowerCase().includes(author.toLowerCase()))
 		{
-			return false;
+			return true;
 		}
 		else
 		{
-			return true;
+			return false;
 		}
 	}
 	catch
@@ -166,13 +166,13 @@ function chkTitle(title, parsTitle)
 {
 	try
 	{
-		if(!(parsTitle.toLowerCase().includes(title.toLowerCase())))
+		if(parsTitle.toLowerCase().includes(title.toLowerCase()))
 		{
-			return false;
+			return true;
 		}
 		else
 		{
-			return true;
+			return false;
 		}
 	}
 	catch
@@ -188,13 +188,14 @@ function chkSub(subject, parsSub)
 	{
 		for(j = 0; j < parsSub.length; j++)
 		{
-			if(!(parsSub[j].toLowerCase().includes(subject.toLowerCase())))
+			if(parsSub[j].toLowerCase().includes(subject.toLowerCase()))
 			{
-				continue;
+				return true;
+				
 			}
 			else
 			{
-				return true;
+				continue;
 			}
 		}
 		return false;
@@ -212,13 +213,13 @@ function chkYear(year, parsJournal)
 {
 	try
 	{
-		if(!(parsJournal.toLowerCase().includes(year.toLowerCase())))
+		if(parsJournal.toLowerCase().includes(year.toLowerCase()))
 		{
-			return false;
+			return true;
 		}
 		else
 		{
-			return true;
+			return false;
 		}
 	}
 	catch
@@ -232,13 +233,13 @@ function chkJournal(journal, parsJournal)
 {
 	try
 	{
-		if(!(parsJournal.toLowerCase().includes(journal.toLowerCase())))
+		if(parsJournal.toLowerCase().includes(journal.toLowerCase()))
 		{
-			return false;
+			return true;
 		}
 		else
 		{
-			return true;
+			return false;
 		}
 	}
 	catch
@@ -253,13 +254,13 @@ function chkKeywords(keywords, parsKeywords)
 	{
 		for(j = 0; j < parsKeywords.length; j++)
 		{
-			if(!(parsKeywords[j].toLowerCase().includes(keywords.toLowerCase())))
+			if(parsKeywords[j].toLowerCase().includes(keywords.toLowerCase()))
 			{
-				continue;
+				return true;
 			}
 			else
 			{
-				return true;
+				continue;
 			}
 		}
 		return false;
@@ -276,13 +277,13 @@ function chkDoi(doi, parsDoi)
 {
 	try
 	{
-		if(!(parsDoi.toLowerCase().includes(doi.toLowerCase())))
+		if(parsDoi.toLowerCase().includes(doi.toLowerCase()))
 		{
-			return false;
+			return true;
 		}
 		else
 		{
-			return true;
+			return false;
 		}
 	}
 	catch
