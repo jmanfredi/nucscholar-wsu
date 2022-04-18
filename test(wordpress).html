@@ -33,18 +33,18 @@ async function main()
 		if(papers.length > 0)
 		{
 			sessionStorage.setItem("Papers", JSON.stringify(papers));
-			location.href = "./output.html";
+			location.href = "./output(wordpress).html";
 		}
 		else
 		{
 			sessionStorage.setItem("Papers", JSON.stringify(papers));
-			location.href = "./output.html";
+			location.href = "./output(wordpress).html";
 		}
 	}
 	catch
 	{
 		sessionStorage.setItem("Papers", JSON.stringify(papers));
-		location.href = "./output.html";
+		location.href = "./output(wordpress).html";
 	}
 	
 
@@ -56,7 +56,7 @@ function submitFormat()
 		    b.innerHTML = "To search a new paper click this button!";
 		    b.onclick = function()
 		    {
-                location.href = "./test.html";
+                location.href = "./test(wordpress).html";
 		    };
 		    document.body.appendChild(b);
 }
