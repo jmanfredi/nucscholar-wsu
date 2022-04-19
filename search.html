@@ -26,12 +26,18 @@ async function main()
 	sessionStorage.setItem("doi",JSON.stringify(doi));
 	sessionStorage.setItem("year",JSON.stringify(year));
 
+	if(Null(author, title, subject, year, journal, keywords, doi))
+	{
+		sessionStorage.setItem("Papers", null);
+		location.href = "./searchoutput.html";
+	}
+
 	var parsed;
 	var url = 'https://raw.githubusercontent.com/popp22/popp22.github.io/main/test.json';
 	
 	parsed = await getJSON(url);
-
-	var papers = search(parsed, author, title, subject, year, journal, keywords, doi);
+	console.log(author)
+	papers = search(parsed, author, title, subject, year, journal, keywords, doi);
 	
 	try
 	{
@@ -53,6 +59,13 @@ async function main()
 	}
 	
 
+}
+
+function Null(author, title, subject, year, journal, keywords, doi)
+{
+	if(author == "" && title == "" && subject == "" && year == "" && journal == "" && keywords == "" && doi == "")
+		return true;
+	else false;
 }
 
 /**
@@ -101,45 +114,49 @@ function search(parsed, author, title, subject, year, journal, keywords, doi)
 	{
 		try
 		{
-			
-			//Check author
-			if(!(chkAut(author, parsed[i].authors)))
+			if(Null(author, title, subject, year, journal, keywords, doi))
 			{
-				continue;
+				return papers;
 			}
-			//Check title
-			if(!(chkTitle(title, removeSlashnFromJson(parsed[i].title))))
-			{
-				continue;
-			}
-			//Check subject
-			if(!(chkSub(subject, parsed[i].subject)))
-			{
-				continue;
-			}
-			//Check year
-			if(!(chkYear(year, parsed[i].journal)))
-			{
-				continue;
-			}
-			//Check journal
-			if(!(chkJournal(journal, parsed[i].journal)))
-			{
-				continue;
-			}
-			//check keywords
-			if(!(chkKeywords(keywords, removeSlashnFromJson(parsed[i].keywords))))
-			{
-				continue;
-			}
-			//check DOI
-			if(!(chkDoi(doi, parsed[i].doi)))
-			{
-				continue;
-			}
-			console.log("Made it");
-			papers.push(parsed[i]);
+			else{
+				//Check author
+				if(!(chkAut(author, parsed[i].authors)))
+				{
+					continue;
+				}
+				//Check title
+				if(!(chkTitle(title, removeSlashnFromJson(parsed[i].title))))
+				{
+					continue;
+				}
+				//Check subject
+				if(!(chkSub(subject, parsed[i].subject)))
+				{
+					continue;
+				}
+				//Check year
+				if(!(chkYear(year, parsed[i].journal)))
+				{
+					continue;
+				}
+				//Check journal
+				if(!(chkJournal(journal, parsed[i].journal)))
+				{
+					continue;
+				}
+				//check keywords
+				if(!(chkKeywords(keywords, removeSlashnFromJson(parsed[i].keywords))))
+				{
+					continue;
+				}
+				//check DOI
+				if(!(chkDoi(doi, parsed[i].doi)))
+				{
+					continue;
+				}
+				papers.push(parsed[i]);
 
+			}
 		}
 		catch
 		{
@@ -352,15 +369,15 @@ function chkDoi(doi, parsDoi)
  */
 function removeSlashnFromJson(str)
 {
-	console.log(JSON.stringify(str));
+	//console.log(JSON.stringify(str));
 	str = JSON.stringify(str);
 	if(str.includes("\\n"))
 	{
 	   str = str.replace("\\n", "");
-	   console.log("yer");
-	   console.log(str);
+	   //console.log("yer");
+	   //console.log(str);
 	   str = JSON.parse(str);
-	   console.log(str);
+	   //console.log(str);
 	}
 	return str;
 }
