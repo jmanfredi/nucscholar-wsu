@@ -1,5 +1,5 @@
 # Nucscholar Search
-This repository is a part of an effort to create a google like search engine specific to nuclear research. The current standard does not search all of the time, and when it does it misses information that is known to be presesnt.
+This repository is a part of an effort to create a google like search engine specific to nuclear research. 
 ## HTML
 There are two HTML pages.
 * search.html  
